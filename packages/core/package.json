@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "url": "https://github.com/sethlowie/elmunleashed/tree/main/packages/core",
   "scripts": {
     "build": "tsc && vite build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Seth Lowie",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.2.1",
