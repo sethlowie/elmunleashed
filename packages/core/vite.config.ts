@@ -1,5 +1,7 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
+import typescript from "@rollup/plugin-typescript";
+import { typescriptPaths } from "rollup-plugin-typescript-paths";
 
 export default defineConfig({
 	build: {
@@ -10,6 +12,19 @@ export default defineConfig({
 			name: "@elmunleashed/core",
 			// the proper extensions will be added
 			fileName: "index",
+		},
+		rollupOptions: {
+			external: [],
+			plugins: [
+				typescriptPaths({
+					preserveExtensions: true,
+				}),
+				typescript({
+					sourceMap: false,
+					declaration: true,
+					outDir: "dist",
+				}),
+			],
 		},
 	},
 });
