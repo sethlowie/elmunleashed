@@ -1,3 +1,1 @@
-console.log("Welcome to Elm Unleashed");
-
-export {};
+export * from "./httpIntercept";
