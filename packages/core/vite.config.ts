@@ -12,6 +12,7 @@ export default defineConfig({
 			name: "@elmunleashed/core",
 			// the proper extensions will be added
 			fileName: "index",
+			formats: ["es"],
 		},
 		rollupOptions: {
 			external: [],
