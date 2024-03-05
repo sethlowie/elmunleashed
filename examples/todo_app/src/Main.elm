@@ -18,11 +18,6 @@ getTodos =
         |> ElmUnleashed.withMethod "GET"
         |> ElmUnleashed.withPath "/todos"
         |> ElmUnleashed.withExpect (Http.expectWhatever GotTodos)
-        |> ElmUnleashed.withJson
-            (E.object
-                [ ( "waffles", E.string "are delicious" )
-                ]
-            )
         |> ElmUnleashed.execute
 
 

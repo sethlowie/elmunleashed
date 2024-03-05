@@ -73,12 +73,17 @@ interface XMLHttpRequestExtended extends XMLHttpRequest {
 	readyState: number;
 	onreadystatechange: () => void;
 	status: number;
+	headers: Record<string, string>;
+	defaultSetRequestHeader: (header: string, value: string) => void;
 }
 
 export class ElmHttpRequestInterceptor implements IElmHttpRequestInterceptor {
 	private interceptors: Module[] = [];
 	private defaultOpen = window.XMLHttpRequest.prototype.open;
 	private defaultSend = window.XMLHttpRequest.prototype.send;
+	private defaultSetRequestHeader =
+		window.XMLHttpRequest.prototype.setRequestHeader;
+	private headers: Record<string, string> = {};
 
 	newModule(namespace: string): Module {
 		const module = new SimpleModule(namespace);
@@ -107,6 +112,16 @@ export class ElmHttpRequestInterceptor implements IElmHttpRequestInterceptor {
 			return self.defaultOpen.apply(this, [method, url, async, user, password]);
 		};
 
+		window.XMLHttpRequest.prototype.setRequestHeader = function (
+			this: XMLHttpRequestExtended,
+			header,
+			value,
+		) {
+			console.log("SET REQUEST HEADER", header, value);
+			this.headers[header] = value;
+			return this.defaultSetRequestHeader(header, value);
+		};
+
 		window.XMLHttpRequest.prototype.send = function (
 			this: XMLHttpRequestExtended,
 			body,
@@ -115,6 +130,8 @@ export class ElmHttpRequestInterceptor implements IElmHttpRequestInterceptor {
 				return self.defaultSend.apply(this, [body]);
 			}
 			if (body) {
+				this.setRequestHeader("waffles", "are great");
+				console.log("HERE::: ", this.getAllResponseHeaders());
 				Object.defineProperty(this, "response", { writable: true });
 				Object.defineProperty(this, "status", { writable: true });
 				Object.defineProperty(this, "readyState", { writable: true });
